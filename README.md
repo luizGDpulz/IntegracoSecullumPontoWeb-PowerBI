@@ -2,6 +2,22 @@
 
 ![Power BI](https://img.shields.io/badge/Power%20BI-Integration-yellow?style=for-the-badge&logo=powerbi) ![API](https://img.shields.io/badge/API-REST-blue?style=for-the-badge)
 
+## Sumário
+
+- [Introdução](#introdução)
+- [Requisitos](#requisitos)
+- [Introdução ao Power Query (M)](#introdução-ao-power-query-m)
+  - [Conceitos-chave](#conceitos-chave)
+- [Criação de Parâmetros no Power BI](#criação-de-parâmetros-no-power-bi)
+  - [Parâmetros necessários](#parâmetros-necessários)
+  - [Procedimento](#procedimento)
+- [Autenticação na API Secullum Ponto Web](#autenticação-na-api-secullum-ponto-web)
+- [Extração de Dados](#extração-de-dados)
+  - [Funcionários](#funcionários)
+  - [Cálculo de Horas Trabalhadas](#cálculo-de-horas-trabalhadas)
+  - [Departamentos](#departamentos)
+- [Observações Finais](#observações-finais)
+
 ## Introdução
 
 Este repositório documenta a integração entre o Power BI e o sistema Secullum Ponto Web, permitindo a extração e análise de informações relacionadas a funcionários, departamentos e cálculo de horas trabalhadas. Este guia fornece uma abordagem detalhada para implementar essa conexão, utilizando a linguagem **Power Query (M)** e interagindo com a API do Secullum Ponto Web.
