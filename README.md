@@ -168,7 +168,13 @@ let
     token = getToken[access_token],
     authToken = "Bearer " & token,
 
-    jsonBody = "{\"funcionarioPis\":\"\",\"funcionarioCpf\":\"112.226.969-24\",\"dataInicial\":\"2025-03-22\",\"dataFinal\":\"2025-03-25\",\"centrosDeCustos\":[\"string\"]}",
+    jsonBody = "{
+        \"funcionarioPis\":\"PisDoFuncionario\",
+        \"funcionarioCpf\":\"CpfDoFuncionario\",
+        \"dataInicial\":\"DataInicialDoPeriodo\",
+        \"dataFinal\":\"DataFinalDoPeriodo\",
+        \"centrosDeCustos\":[\"string\"]
+    }",
 
     response = Json.Document(
         Web.Contents(
