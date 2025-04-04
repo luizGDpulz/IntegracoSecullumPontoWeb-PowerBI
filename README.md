@@ -161,7 +161,7 @@ in
 ### 2. Dados da Tela de Calculos
 
 Este bloco calcula as horas trabalhadas para um determinado funcionário.
-[Código completo](getTelaCalculos.m)
+[Código completo](getTelaDeCalculos.m)
 
 ```m
 let
