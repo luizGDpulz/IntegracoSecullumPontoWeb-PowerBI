@@ -15,10 +15,10 @@ let
     authToken = "Bearer " & token,
 
     jsonBody = "{ 
-        ""funcionarioPis"": """", 
-        ""funcionarioCpf"": ""112.226.969-24"", 
-        ""dataInicial"": ""2025-03-22"", 
-        ""dataFinal"": ""2025-03-25"", 
+        ""funcionarioPis"": ""PISFuncionarioAQUI"", 
+        ""funcionarioCpf"": ""CPFFuncionarioAQUI"", 
+        ""dataInicial"": ""DataInicialDoPeriodoAQUI"", 
+        ""dataFinal"": ""DataFinalDoPeriodoAQUI"", 
         ""centrosDeCustos"": [""string""] 
     }",
 
