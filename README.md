@@ -12,15 +12,15 @@
   - [Parâmetros necessários](#parâmetros-necessários)
   - [Procedimento](#procedimento)
 - [Autenticação na API Secullum Ponto Web](#autenticação-na-api-secullum-ponto-web)
-- [Extração de Dados](#extração-de-dados)
-  - [Funcionários](#funcionários)
-  - [Cálculo de Horas Trabalhadas](#cálculo-de-horas-trabalhadas)
-  - [Departamentos](#departamentos)
+- [Exemplos Extração de Dados](#exemplos-extração-de-dados)
+  - [1. Funcionários](#1.-funcionarios)
+  - [2. Tela de Cálculos](#2.-tela-de-calculos)
+  - [3. Departamentos](#departamentos)
 - [Observações Finais](#observações-finais)
 
 ## Introdução
 
-Este repositório documenta a integração entre o Power BI e o sistema Secullum Ponto Web, permitindo a extração e análise de informações relacionadas a funcionários, departamentos e cálculo de horas trabalhadas. Este guia fornece uma abordagem detalhada para implementar essa conexão, utilizando a linguagem **Power Query (M)** e interagindo com a API do Secullum Ponto Web.
+Este repositório documenta a integração entre o Power BI e o sistema Secullum Ponto Web, permitindo a extração e análise de informações com exemplos relacionados a funcionários, departamentos e tela de cálculos. Este guia fornece uma abordagem detalhada para implementar essa conexão, utilizando a linguagem **Power Query (M)** e interagindo com a API do Secullum Ponto Web.
 
 ## Requisitos
 
@@ -48,11 +48,13 @@ Os parâmetros no Power BI permitem personalizar valores sem a necessidade de al
 
 Antes de executar os códigos abaixo, certifique-se de criar os seguintes parâmetros no Power BI:
 
-- `urlToken` - URL do endpoint de autenticação da API.
-
 - `username` - Nome de usuário para autenticação.
 
 - `password` - Senha do usuário para autenticação.
+
+- `id_banco` - Identificador do banco de dados da empresa dentro da API.
+
+- `urlToken` - URL do endpoint de autenticação da API.
 
 - `urlFuncionarios` - URL do endpoint para obter os dados dos funcionários.
 
@@ -60,19 +62,17 @@ Antes de executar os códigos abaixo, certifique-se de criar os seguintes parâm
 
 - `urlDepartamentos` - URL do endpoint para obtenção dos departamentos.
 
-- `id_banco` - Identificador do banco de dados da empresa dentro da API.
-
 ### Procedimento:
 
 1. No Power BI, acesse `Gerenciar Parâmetros > Novo Parâmetro`.
 2. Defina um nome apropriado (exemplo: `urlToken`, `username`, `password`).
-3. Selecione o tipo de dado correspondente.
+3. Selecione o tipo de dado correspondente (em nosso ambiente selecione `Texto`).
 4. Confirme clicando em `OK`.
 
 ## Autenticação na API Secullum Ponto Web
 
 Este bloco de código realiza a autenticação na API, obtendo um **Token de Acesso** para requisições futuras.
-
+[Código completo](getToken.m)
 ```m
 let
     getToken = Json.Document(
@@ -88,17 +88,37 @@ in
     getToken
 ```
 
-### Explicação
+### Principais Características da Autenticação
 
-1. A função `Web.Contents` faz uma requisição HTTP para obter o token de autenticação.
-2. O corpo da requisição inclui credenciais (username, password) e um client_id.
-3. A resposta é convertida em JSON e armazenada na variável `getToken`.
+#### Protocolo de Autenticação
+- Utiliza **OAuth2** com fluxo `Resource Owner Password Credentials`
+- Requer `client_id=3` (valor fixo para integração com Secullum)
 
-## Extração de Dados
+#### Parâmetros Obrigatórios
+- `urlToken`: Endpoint da API de autenticação
+- `username`: Credencial do usuário (e-mail de login no Secullum Ponto Web)
+- `password`: Senha do usuário (senha de login no Secullum Ponto Web)
 
-### Funcionários
+#### Headers da Requisição
+| Header | Valor | Descrição |
+|--------|-------|-----------|
+| `Accept` | `application/json` | Formato esperado para a resposta |
+| `Content-Type` | `application/x-www-form-urlencoded` | Formato do payload enviado |
 
-Este trecho obtém a lista de funcionários registrados no sistema.
+#### Medidas de Segurança
+🔒 **Proteção de Dados:**
+- Credenciais trafegadas exclusivamente no corpo da requisição (nunca na URL)
+- Uso obrigatório de **HTTPS** (criptografia TLS)
+
+⏱ **Validade:**
+- O Token têm duração limitada (padrão: 1 hora / 3600 segundos)
+- Exige renovação após expiração (código HTTP 401)
+
+## Exemplos Extração de Dados
+
+### 1. Funcionários
+
+Este trecho obtém a lista de funcionários registrados no banco do usuário.
 
 ```m
 let
@@ -126,7 +146,7 @@ in
 3. Faz uma requisição HTTP para a API de funcionários.
 4. Retorna os dados em formato JSON.
 
-### Cálculo de Horas Trabalhadas
+### 2. Tela de Calculos
 
 Este bloco calcula as horas trabalhadas para um determinado funcionário.
 
@@ -186,7 +206,7 @@ in
 - Os campos de data são obrigatórios.
 - Caso não deseje filtrar por centro de custos, utilize o valor "string".
 
-### Departamentos
+### 3. Departamentos
 
 Este bloco retorna informações sobre os departamentos da empresa.
 
