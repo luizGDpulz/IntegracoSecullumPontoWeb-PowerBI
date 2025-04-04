@@ -32,19 +32,19 @@ Os parâmetros no Power BI permitem personalizar valores sem a necessidade de al
 
 Antes de executar os códigos abaixo, certifique-se de criar os seguintes parâmetros no Power BI:
 
-- urlToken - URL do endpoint de autenticação da API.
+- `urlToken` - URL do endpoint de autenticação da API.
 
-- username - Nome de usuário para autenticação.
+- `username` - Nome de usuário para autenticação.
 
-- password - Senha do usuário para autenticação.
+- `password` - Senha do usuário para autenticação.
 
-- urlFuncionarios - URL do endpoint para obter os dados dos funcionários.
+- `urlFuncionarios` - URL do endpoint para obter os dados dos funcionários.
 
-- urlCalcular - URL do endpoint para cálculo de horas trabalhadas.
+- `urlCalcular` - URL do endpoint para cálculo de horas trabalhadas.
 
-- urlDepartamentos - URL do endpoint para obtenção dos departamentos.
+- `urlDepartamentos` - URL do endpoint para obtenção dos departamentos.
 
-- id_banco - Identificador do banco de dados da empresa dentro da API.
+- `id_banco` - Identificador do banco de dados da empresa dentro da API.
 
 ### Procedimento:
 
