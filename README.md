@@ -28,6 +28,24 @@ A linguagem **Power Query (M)** é utilizada no Power BI para importar e transfo
 
 Os parâmetros no Power BI permitem personalizar valores sem a necessidade de alteração direta do código.
 
+### Parâmetros necessários:
+
+Antes de executar os códigos abaixo, certifique-se de criar os seguintes parâmetros no Power BI:
+
+- urlToken - URL do endpoint de autenticação da API.
+
+- username - Nome de usuário para autenticação.
+
+- password - Senha do usuário para autenticação.
+
+- urlFuncionarios - URL do endpoint para obter os dados dos funcionários.
+
+- urlCalcular - URL do endpoint para cálculo de horas trabalhadas.
+
+- urlDepartamentos - URL do endpoint para obtenção dos departamentos.
+
+- id_banco - Identificador do banco de dados da empresa dentro da API.
+
 ### Procedimento:
 
 1. No Power BI, acesse `Gerenciar Parâmetros > Novo Parâmetro`.
