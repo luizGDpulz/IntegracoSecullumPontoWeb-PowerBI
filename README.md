@@ -13,9 +13,9 @@
   - [Procedimento](#procedimento)
 - [Autenticação na API Secullum Ponto Web](#autenticação-na-api-secullum-ponto-web)
 - [Exemplos Extração de Dados](#exemplos-extração-de-dados)
-  - [1. Funcionários](#1.-funcionarios)
-  - [2. Tela de Cálculos](#2.-tela-de-calculos)
-  - [3. Departamentos](#departamentos)
+  - [1 Funcionários](#1-funcionários)
+  - [2 Tela de Cálculos](#2-tela-de-calculos)
+  - [3 Departamentos](#3-departamentos)
 - [Observações Finais](#observações-finais)
 
 ## Introdução
@@ -116,7 +116,7 @@ in
 
 ## Exemplos Extração de Dados
 
-### 1. Funcionários
+### 1 Funcionários
 
 Este trecho obtém a lista de funcionários registrados no banco do usuário.
 
@@ -146,7 +146,7 @@ in
 3. Faz uma requisição HTTP para a API de funcionários.
 4. Retorna os dados em formato JSON.
 
-### 2. Tela de Calculos
+### 2 Tela de Calculos
 
 Este bloco calcula as horas trabalhadas para um determinado funcionário.
 
@@ -206,7 +206,7 @@ in
 - Os campos de data são obrigatórios.
 - Caso não deseje filtrar por centro de custos, utilize o valor "string".
 
-### 3. Departamentos
+### 3 Departamentos
 
 Este bloco retorna informações sobre os departamentos da empresa.
 
