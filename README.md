@@ -53,16 +53,24 @@ Antes de executar os códigos abaixo, certifique-se de criar os seguintes parâm
 
 - `password` - Senha do usuário para autenticação.
 
-- `id_banco` - Identificador do banco de dados da empresa dentro da API.
+- `id_banco` - Identificador do banco de dados da empresa dentro da API (id do banco no **Secullum Ponto Web**) .
 
 - `urlToken` - URL do endpoint de autenticação da API.
-
+  ```
+  https://autenticador.secullum.com.br/Token
+  ```
 - `urlFuncionarios` - URL do endpoint para obter os dados dos funcionários.
-
+  ```
+  https://pontowebintegracaoexterna.secullum.com.br/IntegracaoExterna/Funcionarios
+  ```
 - `urlCalcular` - URL do endpoint para cálculo de horas trabalhadas.
-
+  ```
+  https://pontowebintegracaoexterna.secullum.com.br/IntegracaoExterna/Calcular
+  ```
 - `urlDepartamentos` - URL do endpoint para obtenção dos departamentos.
-
+  ```
+  https://pontowebintegracaoexterna.secullum.com.br/IntegracaoExterna/Departamentos
+  ```
 ### Procedimento:
 
 1. No Power BI, acesse `Gerenciar Parâmetros > Novo Parâmetro`.
@@ -271,5 +279,9 @@ in
 ## Observações Finais
 
 - Certifique-se de que as credenciais fornecidas tenham permissão para acessar os endpoints desejados.
+- Este guia foi baseado nos manuais de Integração do **Secullum Ponto Web**, segue links:
+  - [Repositório Principal Integração](https://github.com/Secullum/PontoWebIntegracaoExternaExemplo)   
+  - [Manual de Integração](https://github.com/Secullum/PontoWebIntegracaoExternaExemplo/blob/master/Integracao_Externa_Ponto_Web.pdf)
+  - [Endpoints da API](https://pontowebintegracaoexterna.secullum.com.br/docs/index.html)
 
 Com este guia, você terá as ferramentas necessárias para realizar uma integração eficiente entre o Secullum Ponto Web e o Power BI. Em caso de dúvidas ou sugestões, contribua com o repositório ou entre em contato com o Suporte Secullum! 🚀
