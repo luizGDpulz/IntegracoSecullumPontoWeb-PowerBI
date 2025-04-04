@@ -168,12 +168,12 @@ let
     token = getToken[access_token],
     authToken = "Bearer " & token,
 
-    jsonBody = "{
-        \"funcionarioPis\":\"PisDoFuncionario\",
-        \"funcionarioCpf\":\"CpfDoFuncionario\",
-        \"dataInicial\":\"DataInicialDoPeriodo\",
-        \"dataFinal\":\"DataFinalDoPeriodo\",
-        \"centrosDeCustos\":[\"string\"]
+    jsonBody = "{ 
+        ""funcionarioPis"": ""PISFuncionarioAQUI"", 
+        ""funcionarioCpf"": ""CPFFuncionarioAQUI"", 
+        ""dataInicial"": ""DataInicialDoPeriodoAQUI"", 
+        ""dataFinal"": ""DataFinalDoPeriodoAQUI"", 
+        ""centrosDeCustos"": [""string""] 
     }",
 
     response = Json.Document(
@@ -214,15 +214,16 @@ in
 #### Fluxo de Processamento
 1. **Preparação:**
    - Gera payload JSON com filtros:
-     - CPF/PIS do funcionário
-     - Período (dataInicial/dataFinal)
+     - CPF/PIS do funcionário (apenas um/ambos)(obrigatório)
+     - Período (dataInicial/dataFinal)(obrigatório)
      - Centros de custo (opcional)
 
 2. **Execução:**
    - Método: POST implícito
    - Headers:
+     - `Authorization = authToken`
+     - `secullumidbancoselecionado = id_banco`
      - `Content-Type: application/json`
-     - Demais headers de autenticação
 
 3. **Transformação:**
    - Converte resposta JSON em tabela estruturada
