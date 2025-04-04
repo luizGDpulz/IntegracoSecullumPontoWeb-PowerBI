@@ -13,9 +13,9 @@
   - [Procedimento](#procedimento)
 - [Autenticação na API Secullum Ponto Web](#autenticação-na-api-secullum-ponto-web)
 - [Exemplos Extração de Dados](#exemplos-extração-de-dados)
-  - [1 Funcionários](#1-funcionários)
-  - [2 Tela de Cálculos](#2-tela-de-calculos)
-  - [3 Departamentos](#3-departamentos)
+  - [1. Consulta de Funcionários](#1-consulta-de-funcionários)
+  - [2. Dados da Tela de Cálculos](#2-dados-da-tela-de-calculos)
+  - [3. Consulta de Departamentos](#3-consulta-de-departamentos)
 - [Observações Finais](#observações-finais)
 
 ## Introdução
@@ -28,6 +28,7 @@ Para realizar a integração, certifique-se de ter:
 
 - **Power BI Desktop** instalado.
 - Credenciais válidas de acesso ao sistema **Secullum Ponto Web**.
+- Habilitar a integração para o usuário dentro do **Secullum Ponto Web**.
 - Conhecimento básico sobre **Power Query (M)** e manipulação de APIs REST.
 
 ## Introdução ao Power Query (M)
@@ -116,9 +117,10 @@ in
 
 ## Exemplos Extração de Dados
 
-### 1 Funcionários
+### 1. Consulta de Funcionários
 
 Este trecho obtém a lista de funcionários registrados no banco do usuário.
+[Código completo](getFuncionarios.m)
 
 ```m
 let
@@ -139,16 +141,27 @@ in
     getDados
 ```
 
-### Explicação
+#### Características Principais
+🔑 **Autenticação:**
+- Utiliza token Bearer obtido previamente
+- Requer `id_banco` para identificar o banco de dados corporativo
 
-1. Extrai o `access_token` do token recebido anteriormente.
-2. Monta um cabeçalho de autenticação com o token.
-3. Faz uma requisição HTTP para a API de funcionários.
-4. Retorna os dados em formato JSON.
+📦 **Estrutura da Requisição:**
+- Método: GET implícito
+- Headers:
+  - `Authorization`: Token no formato Bearer
+  - `secullumidbancoselecionado`: ID do banco de dados
 
-### 2 Tela de Calculos
+🔄 **Processamento:**
+1. Extrai token de acesso da autenticação prévia
+2. Monta header de autorização
+3. Consome endpoint REST de funcionários
+4. Retorna payload JSON bruto
+   
+### 2. Dados da Tela de Calculos
 
 Este bloco calcula as horas trabalhadas para um determinado funcionário.
+[Código completo](getTelaCalculos.m)
 
 ```m
 let
@@ -192,23 +205,33 @@ let
 in
     tabelaComTotais
 ```
+#### Fluxo de Processamento
+1. **Preparação:**
+   - Gera payload JSON com filtros:
+     - CPF/PIS do funcionário
+     - Período (dataInicial/dataFinal)
+     - Centros de custo (opcional)
 
-### Explicação
+2. **Execução:**
+   - Método: POST implícito
+   - Headers:
+     - `Content-Type: application/json`
+     - Demais headers de autenticação
 
-1. Gera um corpo JSON com os parâmetros da consulta.
-2. Envia a requisição HTTP para calcular as horas trabalhadas.
-3. Extrai os dados retornados e os transforma em uma tabela.
-4. Adiciona uma linha de totais ao final da tabela.
+3. **Transformação:**
+   - Converte resposta JSON em tabela estruturada
+   - Adiciona linha de totais consolidados
 
-#### Observações
+⚠ **Regras de Validação:**
+- Obrigatório informar CPF **ou** PIS
+- Formato de datas: `YYYY-MM-DD`
+- Campos de data são **obrigatórios**
+- Para centros de custo sem filtro, usar `"string"`
 
-- Pelo menos um dos campos `funcionarioCpf` ou `funcionarioPis` deve ser preenchido.
-- Os campos de data são obrigatórios.
-- Caso não deseje filtrar por centro de custos, utilize o valor "string".
-
-### 3 Departamentos
+### 3. Consulta de Departamentos
 
 Este bloco retorna informações sobre os departamentos da empresa.
+[Código completo](getDepartamentos.m)
 
 ```m
 let
@@ -229,15 +252,17 @@ in
     getDados
 ```
 
-### Explicação
+#### Particularidades
+📊 **Estrutura de Retorno:**
+- Lista de departamentos
+- Inclui metadados como id, descrição e número folha;
 
-1. Obtém um token de autenticação.
-2. Monta o cabeçalho da requisição.
-3. Faz uma requisição para obter os departamentos cadastrados.
-4. Retorna os dados em formato JSON.
+🔗 **Dependências:**
+- Requer mesmo token de autenticação das demais consultas
+- Compatível com estrutura de `id_banco` compartilhada
 
 ## Observações Finais
 
 - Certifique-se de que as credenciais fornecidas tenham permissão para acessar os endpoints desejados.
 
-Com este guia, você terá as ferramentas necessárias para realizar uma integração eficiente entre o Secullum Ponto Web e o Power BI. Em caso de dúvidas ou sugestões, contribua com o repositório ou entre em contato! 🚀
+Com este guia, você terá as ferramentas necessárias para realizar uma integração eficiente entre o Secullum Ponto Web e o Power BI. Em caso de dúvidas ou sugestões, contribua com o repositório ou entre em contato com o Suporte Secullum! 🚀
