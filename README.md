@@ -82,7 +82,7 @@ Antes de executar os códigos abaixo, certifique-se de criar os seguintes parâm
 
 Este bloco de código realiza a autenticação na API, obtendo um **Token de Acesso** para requisições futuras.
 [Código completo](getToken.m)
-```m
+```
 let
     getToken = Json.Document(
         Web.Contents(
@@ -130,7 +130,7 @@ in
 Este trecho obtém a lista de funcionários registrados no banco do usuário.
 [Código completo](getFuncionarios.m)
 
-```m
+```
 let
     token = getToken[access_token],
     authToken = "Bearer " & token,
@@ -171,7 +171,7 @@ in
 Este bloco calcula as horas trabalhadas para um determinado funcionário.
 [Código completo](getTelaDeCalculos.m)
 
-```m
+```
 let
     token = getToken[access_token],
     authToken = "Bearer " & token,
@@ -248,7 +248,7 @@ in
 Este bloco retorna informações sobre os departamentos da empresa.
 [Código completo](getDepartamentos.m)
 
-```m
+```
 let
     token = getToken[access_token],
     authToken = "Bearer " & token,
