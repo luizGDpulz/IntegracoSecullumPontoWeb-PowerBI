@@ -4,38 +4,40 @@
 
 ## Introdução
 
-Este repositório documenta a integração entre o Secullum Ponto Web e o Power BI, permitindo a extração, processamento e análise de dados via API. Aqui, são apresentados snippets de código para a obtenção de informações sobre funcionários, departamentos e cálculo de horas, além de um guia detalhado sobre a implementação e uso adequado dessas funcionalidades.
+Este repositório documenta a integração entre o Power BI e o sistema Secullum Ponto Web, permitindo a extração e análise de informações relacionadas a funcionários, departamentos e cálculo de horas trabalhadas. Este guia fornece uma abordagem detalhada para implementar essa conexão, utilizando a linguagem **Power Query (M)** e interagindo com a API do Secullum Ponto Web.
 
 ## Requisitos
 
-- **Power BI Desktop**
-- **Acesso à API do Secullum Ponto Web**
-- **Credenciais de autenticação válidas**
-- **Conhecimento intermediário em Power Query (M)**
-- **Configuração de parâmetros no Power BI para requisições dinâmicas**
+Para realizar a integração, certifique-se de ter:
 
-## Fundamentos da Linguagem Power Query (M)
+- **Power BI Desktop** instalado.
+- Credenciais válidas de acesso ao sistema **Secullum Ponto Web**.
+- Conhecimento básico sobre **Power Query (M)** e manipulação de APIs REST.
 
-A linguagem Power Query (M) é funcional e projetada para manipulação e transformação de dados. Sua sintaxe estruturada permite a construção de pipelines eficientes de processamento de dados antes da carga no Power BI.
+## Introdução ao Power Query (M)
 
-### Conceitos essenciais:
+A linguagem **Power Query (M)** é utilizada no Power BI para importar e transformar dados. Ela permite a extração de informações de diferentes fontes e a estruturação dos dados de forma organizada e eficiente.
 
-- **Bloco `let ... in`**: Estrutura que define variáveis e retorna valores no escopo da consulta.
-- **Funções essenciais**: `Json.Document`, `Web.Contents`, `Table.FromRecords` são fundamentais para ingestão e transformação de dados.
-- **Autenticação HTTP**: Uso de tokens `Bearer` para acessar APIs protegidas.
+### Conceitos-chave:
 
-## Configuração de Parâmetros no Power BI
+- A estrutura da linguagem segue o formato **`let ... in`**, definindo variáveis e retornando resultados.
+- A função **`Web.Contents`** permite interagir com APIs externas.
+- Os dados podem ser transformados em tabelas organizadas para facilitar análises posteriores.
 
-Para tornar as consultas mais dinâmicas e adaptáveis, utilizamos parâmetros configuráveis no Power BI Desktop. Eles permitem modificar URLs, credenciais e outras informações sem a necessidade de alterar o código.
+## Criação de Parâmetros no Power BI
 
-### Como criar um parâmetro:
+Os parâmetros no Power BI permitem personalizar valores sem a necessidade de alteração direta do código.
 
-1. No Power BI, vá para `Gerenciar Parâmetros > Novo Parâmetro`.
-2. Escolha um nome adequado (ex.: `urlToken`, `username`, `password`, `id_banco`).
-3. Selecione o tipo de dado apropriado e forneça um valor padrão.
-4. Confirme clicando em `OK` e utilize o parâmetro dentro das consultas.
+### Procedimento:
 
-## Autenticação e Obtenção do Token
+1. No Power BI, acesse `Gerenciar Parâmetros > Novo Parâmetro`.
+2. Defina um nome apropriado (exemplo: `urlToken`, `username`, `password`).
+3. Selecione o tipo de dado correspondente.
+4. Confirme clicando em `OK`.
+
+## Autenticação na API Secullum Ponto Web
+
+Este bloco de código realiza a autenticação na API, obtendo um **Token de Acesso** para requisições futuras.
 
 ```m
 let
@@ -52,11 +54,17 @@ in
     getToken
 ```
 
-Este trecho realiza a autenticação na API e recupera um token de acesso para futuras requisições HTTP.
+### Explicação
 
-## Obtendo Dados dos Funcionários
+1. A função `Web.Contents` faz uma requisição HTTP para obter o token de autenticação.
+2. O corpo da requisição inclui credenciais (username, password) e um client_id.
+3. A resposta é convertida em JSON e armazenada na variável `getToken`.
 
-[Clique aqui para acessar o código completo](#)
+## Extração de Dados
+
+### Funcionários
+
+Este trecho obtém a lista de funcionários registrados no sistema.
 
 ```m
 let
@@ -77,18 +85,23 @@ in
     getDados
 ```
 
-Este código retorna uma lista de funcionários cadastrados no sistema.
+### Explicação
 
-## Cálculo de Horas para um Funcionário
+1. Extrai o `access_token` do token recebido anteriormente.
+2. Monta um cabeçalho de autenticação com o token.
+3. Faz uma requisição HTTP para a API de funcionários.
+4. Retorna os dados em formato JSON.
 
-[Clique aqui para acessar o código completo](#)
+### Cálculo de Horas Trabalhadas
+
+Este bloco calcula as horas trabalhadas para um determinado funcionário.
 
 ```m
 let
     token = getToken[access_token],
     authToken = "Bearer " & token,
 
-    jsonBody = "{\n    \"funcionarioPis\": \"\",\n    \"funcionarioCpf\": \"112.226.969-24\",\n    \"dataInicial\": \"2025-03-22\",\n    \"dataFinal\": \"2025-03-25\",\n    \"centrosDeCustos\": [\"string\"]\n}",
+    jsonBody = "{\"funcionarioPis\":\"\",\"funcionarioCpf\":\"112.226.969-24\",\"dataInicial\":\"2025-03-22\",\"dataFinal\":\"2025-03-25\",\"centrosDeCustos\":[\"string\"]}",
 
     response = Json.Document(
         Web.Contents(
@@ -126,11 +139,22 @@ in
     tabelaComTotais
 ```
 
-Este código retorna o cálculo detalhado das horas trabalhadas por um funcionário em um determinado período, considerando suas informações e centro de custos.
+### Explicação
 
-## Obtendo Dados dos Departamentos
+1. Gera um corpo JSON com os parâmetros da consulta.
+2. Envia a requisição HTTP para calcular as horas trabalhadas.
+3. Extrai os dados retornados e os transforma em uma tabela.
+4. Adiciona uma linha de totais ao final da tabela.
 
-[Clique aqui para acessar o código completo](#)
+#### Observações
+
+- Pelo menos um dos campos `funcionarioCpf` ou `funcionarioPis` deve ser preenchido.
+- Os campos de data são obrigatórios.
+- Caso não deseje filtrar por centro de custos, utilize o valor "string".
+
+### Departamentos
+
+Este bloco retorna informações sobre os departamentos da empresa.
 
 ```m
 let
@@ -151,15 +175,15 @@ in
     getDados
 ```
 
-Este código recupera os dados de todos os departamentos cadastrados.
+### Explicação
+
+1. Obtém um token de autenticação.
+2. Monta o cabeçalho da requisição.
+3. Faz uma requisição para obter os departamentos cadastrados.
+4. Retorna os dados em formato JSON.
 
 ## Observações Finais
 
-- Para evitar conflitos ao incluir exemplos de Markdown, substitua os acentos graves internos (`) por caracteres similares (`´`).
-- Pelo menos um dos campos `funcionarioCpf` ou `funcionarioPis` deve ser preenchido.
-- Os campos de data são obrigatórios.
-- Caso não deseje filtrar por centro de custos, utilize o valor "string".
 - Certifique-se de que as credenciais fornecidas tenham permissão para acessar os endpoints desejados.
 
-Com este guia, você terá as ferramentas necessárias para realizar uma integração eficiente entre o Secullum Ponto Web e o Power BI. Em caso de dúvidas ou sugestões, contribua com o repositório ou entre em contato!
-
+Com este guia, você terá as ferramentas necessárias para realizar uma integração eficiente entre o Secullum Ponto Web e o Power BI. Em caso de dúvidas ou sugestões, contribua com o repositório ou entre em contato! 🚀
